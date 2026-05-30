@@ -107,7 +107,7 @@
     ['Deeds will not be less valiant because they are unpraised.', 'Aragorn']
   ];
 
-  let tasks = loadTasks();
+  let tasks = [];
   let activeFeed = 'fox';
   let calendarTokenClient = null;
   let calendarAccessToken = '';
@@ -362,44 +362,80 @@
     `).join('');
   }
 
-  function loadTasks(){
+  async function loadTasks(){
     try {
-      const stored = JSON.parse(localStorage.getItem(TASK_KEY));
-      if(Array.isArray(stored)) return stored;
-    } catch(error) {}
-    return defaultTasks.slice();
+      const response = await fetch('api/tasks.php');
+      if(!response.ok) throw new Error('Failed to load tasks');
+      const data = await response.json();
+      tasks = data.tasks || [];
+      return tasks;
+    } catch(error) {
+      console.error('Task load error:', error);
+      tasks = [];
+      return tasks;
+    }
   }
 
-  function saveTasks(){
-    localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
+  async function saveTask(task){
+    try {
+      const response = await fetch('api/tasks.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(task)
+      });
+      if(!response.ok) throw new Error('Failed to save task');
+      return await response.json();
+    } catch(error) {
+      console.error('Task save error:', error);
+      throw error;
+    }
+  }
+
+  async function updateTask(taskId, updates){
+    try {
+      const response = await fetch('api/tasks.php?id=' + taskId, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(updates)
+      });
+      if(!response.ok) throw new Error('Failed to update task');
+      return await response.json();
+    } catch(error) {
+      console.error('Task update error:', error);
+      throw error;
+    }
+  }
+
+  async function deleteTask(taskId){
+    try {
+      const response = await fetch('api/tasks.php?id=' + taskId, {method: 'DELETE'});
+      if(!response.ok) throw new Error('Failed to delete task');
+      return await response.json();
+    } catch(error) {
+      console.error('Task delete error:', error);
+      throw error;
+    }
   }
 
   function renderTasks(){
     const today = $('todayTasks');
-    const upcoming = $('upcomingTasks');
-    if(today){
-      if(calendarAccessToken){
-        today.innerHTML = '<p style="color:#a89978;font-size:.9rem">Loading tasks from your calendar...</p>';
-        loadGoogleCalendarTasks();
-        return;
-      }
-      today.innerHTML = tasks.map((task, index) => `
-        <label class="task-row ${task.done ? 'done' : ''}">
-          <input type="checkbox" ${task.done ? 'checked' : ''} data-toggle="${index}" />
-          <span>${escapeHtml(task.text)}</span>
-          <b>${task.star ? '*' : ''}</b>
-        </label>
-      `).join('');
+    if(!today) return;
+    if(calendarAccessToken){
+      today.innerHTML = '<p style="color:#a89978;font-size:.9rem">Loading tasks from your calendar...</p>';
+      loadGoogleCalendarTasks();
+      return;
     }
-    if(upcoming){
-      upcoming.innerHTML = upcomingTasks.map((task) => `
-        <label class="task-row upcoming">
-          <input type="checkbox" />
-          <span>${escapeHtml(task.text)}</span>
-          <time>${escapeHtml(task.date)}</time>
-        </label>
-      `).join('');
-    }
+    today.innerHTML = tasks.map((task) => `
+      <label class="task-row ${task.done ? 'done' : ''}" data-task-id="${escapeHtml(task.id)}">
+        <input type="checkbox" ${task.done ? 'checked' : ''} />
+        <span>${escapeHtml(task.text)}</span>
+        <button class="delete-task" type="button" title="Remove task">×</button>
+      </label>
+    `).join('');
+    today.removeEventListener('change', handleTaskToggle);
+    today.addEventListener('change', handleTaskToggle);
+    today.removeEventListener('click', handleTaskDelete);
+    today.addEventListener('click', handleTaskDelete);
   }
 
   async function loadGoogleCalendarTasks(){
@@ -471,19 +507,57 @@
     }
   }
 
-  function addTask(){
+  async function addTask(){
     const input = $('taskInput');
     if(!input) return;
     const value = input.value.trim();
     if(!value) return;
-    if(calendarAccessToken){
-      addGoogleCalendarTask(value);
-    } else {
-      tasks.push({text:value, done:false, star:false});
-      saveTasks();
-      renderTasks();
+    input.disabled = true;
+    try {
+      if(calendarAccessToken){
+        await addGoogleCalendarTask(value);
+      } else {
+        await saveTask({text: value});
+        await loadTasks();
+        renderTasks();
+      }
+      input.value = '';
+    } catch(error) {
+      alert('Could not create task');
+    } finally {
+      input.disabled = false;
     }
-    input.value = '';
+  }
+
+  async function handleTaskToggle(event){
+    if(event.target.type !== 'checkbox') return;
+    const label = event.target.closest('.task-row');
+    if(!label) return;
+    const taskId = label.getAttribute('data-task-id');
+    if(!taskId) return;
+    try {
+      await updateTask(taskId, {done: event.target.checked});
+      await loadTasks();
+      renderTasks();
+    } catch(error) {
+      event.target.checked = !event.target.checked;
+    }
+  }
+
+  async function handleTaskDelete(event){
+    const button = event.target.closest('.delete-task');
+    if(!button) return;
+    const label = button.closest('.task-row');
+    if(!label) return;
+    const taskId = label.getAttribute('data-task-id');
+    if(!taskId) return;
+    try {
+      await deleteTask(taskId);
+      await loadTasks();
+      renderTasks();
+    } catch(error) {
+      console.error('Delete failed:', error);
+    }
   }
 
   async function addGoogleCalendarTask(title){
@@ -632,7 +706,7 @@
     localStorage.setItem('sage_theme', document.body.classList.contains('ember-mode') ? 'ember' : 'night');
   }
 
-  document.addEventListener('DOMContentLoaded', function(){
+  document.addEventListener('DOMContentLoaded', async function(){
     hydrateTheme();
     renderApps('aiGrid', aiLinks);
     renderApps('toolGrid', toolLinks);
@@ -641,6 +715,7 @@
     renderFellowship();
     renderNotes();
     renderStatus();
+    await loadTasks();
     renderTasks();
     updateTime();
     setQuote();
@@ -663,25 +738,13 @@
     $('taskInput').addEventListener('keydown', function(event){
       if(event.key === 'Enter') addTask();
     });
-    $('clearDone').addEventListener('click', function(){
-      tasks = tasks.filter((task) => !task.done);
-      saveTasks();
-      renderTasks();
-    });
-    $('todayTasks').addEventListener('change', function(event){
-      if(!event.target.type || event.target.type !== 'checkbox') return;
-      const index = event.target.getAttribute('data-toggle');
-      if(index !== null){
-        tasks[Number(index)].done = event.target.checked;
-        saveTasks();
-        renderTasks();
+    $('clearDone').addEventListener('click', async function(){
+      const doneTasks = tasks.filter(t => t.done);
+      for(const task of doneTasks){
+        await deleteTask(task.id);
       }
-    });
-    $('todayTasks').addEventListener('click', function(event){
-      const button = event.target.closest('.delete-task');
-      if(!button) return;
-      event.preventDefault();
-      if(calendarAccessToken) handleTaskDelete.call({}, event);
+      await loadTasks();
+      renderTasks();
     });
     $('themeToggle').addEventListener('click', toggleTheme);
     $('newsTabs').addEventListener('click', function(event){

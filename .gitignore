@@ -1,2 +1,6 @@
 # Ignore nested repository directory
 Homepage/
+
+# Ignore local data files (tasks storage)
+data/
+
