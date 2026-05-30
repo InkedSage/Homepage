@@ -112,7 +112,7 @@ img{display:block;max-width:100%}
   display:flex;
   align-items:flex-start;
   justify-content:flex-end;
-  gap:16px;
+  gap:12px;
 }
 
 .top-action,.profile-link{
@@ -375,36 +375,39 @@ img{display:block;max-width:100%}
 }
 
 .date-box{
-  min-height:226px;
-  border:1px solid rgba(214,151,50,.34);
-  border-radius:7px;
+  min-height:170px;
+  border:1px solid rgba(214,151,50,.28);
+  border-radius:6px;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  background:rgba(0,0,0,.18);
+  background:rgba(0,0,0,.14);
   color:#f5d38f;
+  padding:10px;
 }
 
 .date-box b{
-  font-size:4.8rem;
-  line-height:.9;
+  font-size:3.6rem;
+  line-height:1;
   font-weight:400;
 }
 
 .date-box span{
   text-transform:uppercase;
   color:#f2ca7a;
+  font-size:.9rem;
 }
 
 .event-list{display:flex;flex-direction:column;gap:0}
 .calendar-state{
-  min-height:39px;
+  min-height:32px;
   display:flex;
   align-items:center;
-  border-bottom:1px solid rgba(214,151,50,.13);
+  border-bottom:1px solid rgba(214,151,50,.12);
   color:#d9be85;
-  line-height:1.25;
+  line-height:1.2;
+  padding-left:6px;
 }
 
 .calendar-state[data-tone="warn"]{color:#f0ac7c}
@@ -412,12 +415,13 @@ img{display:block;max-width:100%}
 
 .event-row{
   display:grid;
-  grid-template-columns:12px 78px minmax(0,1fr) auto;
-  gap:10px;
+  grid-template-columns:10px 68px minmax(0,1fr) auto;
+  gap:8px;
   align-items:center;
-  min-height:39px;
-  border-bottom:1px solid rgba(214,151,50,.13);
-  font-size:.94rem;
+  min-height:34px;
+  border-bottom:1px solid rgba(214,151,50,.10);
+  font-size:.92rem;
+  padding:6px 0;
 }
 
 .event-dot{
@@ -436,7 +440,7 @@ img{display:block;max-width:100%}
   justify-content:center;
   gap:10px;
   width:100%;
-  margin-top:16px;
+  margin-top:10px;
   text-align:center;
   color:var(--gold-strong);
 }
