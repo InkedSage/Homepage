@@ -10,7 +10,7 @@
     googleCalendar: {
       clientId: '644801431816-9f7u70h62fipmebva3llupi2o17b1g80.apps.googleusercontent.com',
       calendarId: 'primary',
-      scopes: 'https://www.googleapis.com/auth/calendar',
+      scopes: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive',
       maxResults: 8
     }
   };
