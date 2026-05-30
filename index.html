@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sage's Middle-earth Command</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-top">
+      <div class="identity">
+        <img class="sigil" src="assets/sigil.svg" alt="Sage sigil" />
+        <div class="time-stack">
+          <strong id="greeting">Good Evening, Sage</strong>
+          <span id="clockDate">Loading date...</span>
+          <span id="clockTime">Loading time...</span>
+        </div>
+      </div>
+
+      <nav class="top-actions" aria-label="Top links">
+        <button id="themeToggle" class="top-action" type="button">
+          <span class="top-dot"></span>
+          <span>Theme</span>
+        </button>
+        <a class="top-action" href="https://myaccount.google.com/" target="_blank" rel="noopener">
+          <img src="https://www.google.com/s2/favicons?domain=myaccount.google.com&amp;sz=64" alt="" />
+          <span>Account</span>
+        </a>
+        <a class="top-action alert-link" href="https://mail.google.com/" target="_blank" rel="noopener">
+          <img src="https://www.google.com/s2/favicons?domain=gmail.com&amp;sz=64" alt="" />
+          <span>Alerts</span>
+          <b>3</b>
+        </a>
+        <a class="profile-link" href="https://chatgpt.com/" target="_blank" rel="noopener">
+          <img src="assets/avatars/avatar-06-row2-col2.png" alt="Sage avatar" />
+          <span>Sage</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="title-wrap">
+      <h1>Sage's <span>Middle-earth Command</span></h1>
+      <div class="ornament" aria-hidden="true"></div>
+      <p>All that is yours to do, see and know</p>
+    </div>
+
+    <form class="command-bar" id="searchForm">
+      <div class="palantir">
+        <img src="assets/palantir.svg" alt="" />
+        <span>Palantir</span>
+      </div>
+      <input id="searchInput" type="search" placeholder="Search anything... tools, files, web, notes..." autocomplete="off" />
+      <button class="icon-button search-submit" type="submit" aria-label="Search">Search</button>
+      <button class="command-button" id="askAi" type="button">Ask AI</button>
+      <button class="command-button filled" id="newTask" type="button">New Task</button>
+    </form>
+  </header>
+
+  <main class="dashboard">
+    <section class="panel calendar-panel">
+      <div class="panel-title">
+        <h2>The Calendar</h2>
+        <div class="calendar-actions">
+          <button id="calendarConnect" type="button">Connect Calendar</button>
+          <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" rel="noopener">Open</a>
+        </div>
+      </div>
+      <div class="calendar-body">
+        <div class="date-box">
+          <span id="weekday">Friday</span>
+          <b id="daynum">23</b>
+          <span id="monthyear">May 2025</span>
+        </div>
+        <div>
+          <div class="calendar-state" id="calendarState">Open this page in Chrome or Edge, then click Connect Calendar.</div>
+          <div class="event-list" id="eventList"></div>
+        </div>
+      </div>
+      <a class="wide-link" href="https://calendar.google.com/calendar/u/0/r" target="_blank" rel="noopener">Open Google Calendar</a>
+    </section>
+
+    <section class="panel ai-panel">
+      <div class="panel-title">
+        <h2>AI Tools</h2>
+      </div>
+      <div class="app-grid ai-grid" id="aiGrid"></div>
+    </section>
+
+    <section class="panel tasks-panel" id="tasksPanel">
+      <div class="panel-title">
+        <h2>The Tasks of Today</h2>
+        <button id="clearDone" type="button">Clear Done</button>
+      </div>
+      <div class="task-columns">
+        <div>
+          <h3>Today</h3>
+          <div id="todayTasks" class="task-list"></div>
+        </div>
+        <div>
+          <h3>Upcoming</h3>
+          <div id="upcomingTasks" class="task-list compact"></div>
+        </div>
+      </div>
+      <div class="task-add">
+        <input id="taskInput" type="text" placeholder="Forge a new objective..." />
+        <button id="addTask" type="button">Assign</button>
+      </div>
+      <a class="wide-link asana-link" href="https://app.asana.com/" target="_blank" rel="noopener">
+        <img src="https://www.google.com/s2/favicons?domain=asana.com&amp;sz=64" alt="" />
+        <span>Open Asana</span>
+      </a>
+    </section>
+
+    <section class="panel tools-panel">
+      <div class="panel-title">
+        <h2>Tools &amp; Systems</h2>
+      </div>
+      <div class="app-grid tool-grid" id="toolGrid"></div>
+    </section>
+
+    <section class="panel quick-panel">
+      <div class="panel-title">
+        <h2>Quick Access</h2>
+      </div>
+      <div class="quick-list" id="quickList"></div>
+    </section>
+
+    <section class="panel news-panel">
+      <div class="panel-title">
+        <h2>News from Middle-earth</h2>
+        <div class="panel-actions">
+          <button id="refreshNews" type="button">Refresh</button>
+          <button id="viewSource" type="button">Source</button>
+        </div>
+      </div>
+      <div class="tabs" id="newsTabs">
+        <button class="active" data-feed="fox" type="button">Fox News</button>
+        <button data-feed="wowhead" type="button">Wowhead</button>
+        <button data-feed="tech" type="button">Tech</button>
+      </div>
+      <div id="newsList" class="news-list">Summoning ravens...</div>
+      <button id="viewAllNews" class="wide-link as-button" type="button">View All News</button>
+    </section>
+
+    <section class="panel fellowship-panel">
+      <div class="panel-title">
+        <h2>The Fellowship</h2>
+      </div>
+      <div class="fellowship-list" id="fellowshipList"></div>
+      <figure class="fellowship-quote">
+        <blockquote>"Not all those who wander are lost."</blockquote>
+        <figcaption>J.R.R. Tolkien</figcaption>
+      </figure>
+    </section>
+
+    <section class="panel notes-panel">
+      <div class="panel-title">
+        <h2>The Scribe's Notes</h2>
+      </div>
+      <div class="note-grid" id="noteGrid"></div>
+      <a class="wide-link notion-link" href="https://www.notion.so/" target="_blank" rel="noopener">
+        <img src="https://www.google.com/s2/favicons?domain=notion.so&amp;sz=64" alt="" />
+        <span>Open Notion</span>
+      </a>
+    </section>
+
+    <section class="panel weather-panel">
+      <div class="panel-title">
+        <h2>Weather in Rohan</h2>
+      </div>
+      <div class="weather-main">
+        <div class="weather-icon">Cloudy</div>
+        <div>
+          <b id="weatherTemp">--</b>
+          <span id="weatherDesc">Sage Cabin</span>
+        </div>
+      </div>
+      <div class="weather-grid">
+        <span>Humidity <b id="weatherHumidity">--</b></span>
+        <span>Wind <b id="weatherWind">--</b></span>
+        <span>Rain Today <b id="weatherRain">--</b></span>
+        <span>Updated <b id="weatherUpdated">--</b></span>
+      </div>
+      <small id="weatherSource">Source: Sage Cabin</small>
+    </section>
+
+    <section class="panel wisdom-panel">
+      <div class="panel-title">
+        <h2>Words of Wisdom</h2>
+      </div>
+      <blockquote id="quoteText"></blockquote>
+      <cite id="quoteBy"></cite>
+    </section>
+
+    <section class="panel status-panel">
+      <div class="status-columns">
+        <div>
+          <div class="panel-title flush">
+            <h2>System Status</h2>
+          </div>
+          <div id="statusList" class="status-list"></div>
+        </div>
+        <div class="incident-box">
+          <div class="panel-title flush">
+            <h2>Open Incidents</h2>
+          </div>
+          <p id="incidentText">None</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="assets/ring-footer.svg" alt="Decorative ring" />
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
