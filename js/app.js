@@ -10,7 +10,7 @@
     googleCalendar: {
       clientId: '644801431816-9f7u70h62fipmebva3llupi2o17b1g80.apps.googleusercontent.com',
       calendarId: 'primary',
-      scopes: 'https://www.googleapis.com/auth/calendar.readonly',
+      scopes: 'https://www.googleapis.com/auth/calendar',
       maxResults: 8
     }
   };
@@ -378,6 +378,11 @@
     const today = $('todayTasks');
     const upcoming = $('upcomingTasks');
     if(today){
+      if(calendarAccessToken){
+        today.innerHTML = '<p style="color:#a89978;font-size:.9rem">Loading tasks from your calendar...</p>';
+        loadGoogleCalendarTasks();
+        return;
+      }
       today.innerHTML = tasks.map((task, index) => `
         <label class="task-row ${task.done ? 'done' : ''}">
           <input type="checkbox" ${task.done ? 'checked' : ''} data-toggle="${index}" />
@@ -397,15 +402,116 @@
     }
   }
 
+  async function loadGoogleCalendarTasks(){
+    if(!calendarAccessToken) return;
+    const today = $('todayTasks');
+    if(!today) return;
+    try {
+      const {start, end} = calendarWindow(new Date());
+      const params = new URLSearchParams({
+        singleEvents: 'true',
+        orderBy: 'startTime',
+        timeMin: start.toISOString(),
+        timeMax: end.toISOString(),
+        maxResults: '20',
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Chicago'
+      });
+      const calendarId = encodeURIComponent(CONFIG.googleCalendar.calendarId || 'primary');
+      const response = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?${params}`, {
+        headers: {Authorization: 'Bearer ' + calendarAccessToken}
+      });
+      if(!response.ok) throw new Error('Failed to load tasks');
+      const data = await response.json();
+      const events = (data.items || []).filter((event) => event.status !== 'cancelled');
+      today.innerHTML = events.map((event) => `
+        <label class="task-row" data-event-id="${escapeHtml(event.id)}">
+          <input type="checkbox" data-event-id="${escapeHtml(event.id)}" />
+          <span>${escapeHtml(event.summary || 'Untitled')}</span>
+          <button class="delete-task" type="button" data-event-id="${escapeHtml(event.id)}" title="Remove task">×</button>
+        </label>
+      `).join('');
+      today.addEventListener('change', handleTaskToggle);
+      today.addEventListener('click', handleTaskDelete);
+    } catch(error) {
+      console.error('Task load error:', error);
+    }
+  }
+
+  async function handleTaskToggle(event){
+    if(event.target.type !== 'checkbox') return;
+    const eventId = event.target.getAttribute('data-event-id');
+    if(!eventId || !calendarAccessToken) return;
+    try {
+      const calendarId = encodeURIComponent(CONFIG.googleCalendar.calendarId || 'primary');
+      await fetch(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events/${eventId}`, {
+        method: 'DELETE',
+        headers: {Authorization: 'Bearer ' + calendarAccessToken}
+      });
+      renderTasks();
+    } catch(error) {
+      console.error('Task completion error:', error);
+      event.target.checked = false;
+    }
+  }
+
+  async function handleTaskDelete(event){
+    const button = event.target.closest('.delete-task');
+    if(!button || !calendarAccessToken) return;
+    const eventId = button.getAttribute('data-event-id');
+    if(!eventId) return;
+    try {
+      const calendarId = encodeURIComponent(CONFIG.googleCalendar.calendarId || 'primary');
+      await fetch(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events/${eventId}`, {
+        method: 'DELETE',
+        headers: {Authorization: 'Bearer ' + calendarAccessToken}
+      });
+      renderTasks();
+    } catch(error) {
+      console.error('Task delete error:', error);
+    }
+  }
+
   function addTask(){
     const input = $('taskInput');
     if(!input) return;
     const value = input.value.trim();
     if(!value) return;
-    tasks.push({text:value, done:false, star:false});
+    if(calendarAccessToken){
+      addGoogleCalendarTask(value);
+    } else {
+      tasks.push({text:value, done:false, star:false});
+      saveTasks();
+      renderTasks();
+    }
     input.value = '';
-    saveTasks();
-    renderTasks();
+  }
+
+  async function addGoogleCalendarTask(title){
+    if(!calendarAccessToken) return;
+    try {
+      const now = new Date();
+      const startTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0);
+      const endTime = new Date(startTime.getTime() + 30 * 60000);
+      const event = {
+        summary: title,
+        start: {dateTime: startTime.toISOString(), timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Chicago'},
+        end: {dateTime: endTime.toISOString(), timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Chicago'}
+      };
+      const calendarId = encodeURIComponent(CONFIG.googleCalendar.calendarId || 'primary');
+      const response = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`, {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + calendarAccessToken,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(event)
+      });
+      if(!response.ok) throw new Error('Failed to create task');
+      renderTasks();
+    } catch(error) {
+      console.error('Create task error:', error);
+      alert('Could not create task. Check your calendar permissions.');
+    }
   }
 
   function updateTime(){
@@ -563,12 +669,19 @@
       renderTasks();
     });
     $('todayTasks').addEventListener('change', function(event){
+      if(!event.target.type || event.target.type !== 'checkbox') return;
       const index = event.target.getAttribute('data-toggle');
       if(index !== null){
         tasks[Number(index)].done = event.target.checked;
         saveTasks();
         renderTasks();
       }
+    });
+    $('todayTasks').addEventListener('click', function(event){
+      const button = event.target.closest('.delete-task');
+      if(!button) return;
+      event.preventDefault();
+      if(calendarAccessToken) handleTaskDelete.call({}, event);
     });
     $('themeToggle').addEventListener('click', toggleTheme);
     $('newsTabs').addEventListener('click', function(event){
