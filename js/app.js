@@ -5,9 +5,8 @@
   const TASK_KEY = 'sage_tasks_v8';
 
   const CONFIG = {
-    weatherStationId: 'KMOHARRI62',
-    weatherStationName: 'Sage Cabin',
-    weatherApiKey: '',
+    weatherLocation: {lat: 38.9517, lon: -92.3341},
+    weatherLocationName: 'Columbia, MO',
     googleCalendar: {
       clientId: '644801431816-9f7u70h62fipmebva3llupi2o17b1g80.apps.googleusercontent.com',
       calendarId: 'primary',
@@ -473,31 +472,47 @@
 
   async function loadWeather(){
     const degree = '\u00b0F';
-    if(!CONFIG.weatherApiKey){
+    const pointUrl = `https://api.weather.gov/points/${CONFIG.weatherLocation.lat},${CONFIG.weatherLocation.lon}`;
+    try {
+      const pointResponse = await fetch(pointUrl);
+      const pointData = await pointResponse.json();
+      const stationListUrl = pointData.properties?.observationStations;
+      if(!stationListUrl) throw new Error('No station list');
+
+      const stationsResponse = await fetch(stationListUrl);
+      const stationsData = await stationsResponse.json();
+      const stationId = stationsData.features?.[0]?.properties?.stationIdentifier;
+      if(!stationId) throw new Error('No station id');
+
+      const obsResponse = await fetch(`https://api.weather.gov/stations/${stationId}/observations/latest`);
+      const obsData = await obsResponse.json();
+      const obs = obsData.properties;
+      if(!obs) throw new Error('No observation returned');
+
+      const tempF = obs.temperature?.value != null ? Math.round(obs.temperature.value * 9/5 + 32) : null;
+      const humidity = obs.relativeHumidity?.value != null ? Math.round(obs.relativeHumidity.value) : null;
+      const windValue = obs.windSpeed?.value;
+      const windMph = windValue != null ? Math.round(windValue * 2.23694) : null;
+      const precipValue = obs.precipitationLastHour?.value;
+      const precipIn = precipValue != null ? Math.round((precipValue / 25.4) * 100) / 100 : null;
+      const conditions = obs.textDescription || 'Current conditions';
+      const updated = obs.timestamp ? new Date(obs.timestamp).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}) : '--';
+
+      $('weatherTemp').textContent = tempF != null ? tempF + degree : '--' + degree;
+      $('weatherDesc').textContent = conditions;
+      $('weatherHumidity').textContent = humidity != null ? humidity + '%' : '--';
+      $('weatherWind').textContent = windMph != null ? windMph + ' mph' : '--';
+      $('weatherRain').textContent = precipIn != null ? precipIn + ' in' : '--';
+      $('weatherUpdated').textContent = updated;
+      $('weatherSource').textContent = 'Source: NWS / ' + CONFIG.weatherLocationName;
+    } catch(error) {
       $('weatherTemp').textContent = '--' + degree;
-      $('weatherDesc').textContent = 'Station key needed';
+      $('weatherDesc').textContent = 'Unable to load NWS data';
       $('weatherHumidity').textContent = '--';
       $('weatherWind').textContent = '--';
       $('weatherRain').textContent = '--';
-      $('weatherUpdated').textContent = 'Config needed';
-      $('weatherSource').textContent = 'Add a Weather Underground API key in js/app.js';
-      return;
-    }
-    try {
-      const url = `https://api.weather.com/v2/pws/observations/current?stationId=${CONFIG.weatherStationId}&format=json&units=e&apiKey=${CONFIG.weatherApiKey}`;
-      const response = await fetch(url);
-      const data = await response.json();
-      const obs = data.observations && data.observations[0];
-      if(!obs) throw new Error('No observation');
-      $('weatherTemp').textContent = Math.round(obs.imperial.temp) + degree;
-      $('weatherDesc').textContent = CONFIG.weatherStationName;
-      $('weatherHumidity').textContent = obs.humidity + '%';
-      $('weatherWind').textContent = Math.round(obs.imperial.windSpeed) + ' mph';
-      $('weatherRain').textContent = (obs.imperial.precipTotal || 0) + ' in';
-      $('weatherUpdated').textContent = new Date(obs.obsTimeUtc || Date.now()).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
-      $('weatherSource').textContent = 'Source: ' + CONFIG.weatherStationName + ' / ' + CONFIG.weatherStationId;
-    } catch(error) {
-      $('weatherDesc').textContent = 'Station blocked or API key rejected';
+      $('weatherUpdated').textContent = 'NWS unavailable';
+      $('weatherSource').textContent = 'Source: National Weather Service';
     }
   }
 
