@@ -39,7 +39,7 @@ img{display:block;max-width:100%}
 .hero{
   position:relative;
   min-height:420px;
-  padding:22px clamp(18px,3vw,42px) 42px;
+  padding:22px clamp(18px,3vw,42px) 62px;
   background:
     linear-gradient(180deg,rgba(2,5,5,.36),rgba(2,5,5,.18) 45%,rgba(2,5,5,.82)),
     url("../assets/Headerhomepage.png") center/cover no-repeat;
@@ -304,7 +304,7 @@ img{display:block;max-width:100%}
 
 .dashboard{
   width:min(1580px,calc(100vw - 36px));
-  margin:-18px auto 42px;
+  margin:26px auto 42px;
   display:grid;
   grid-template-columns:repeat(12,minmax(0,1fr));
   gap:14px;
