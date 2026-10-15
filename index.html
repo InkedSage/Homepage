@@ -9,9 +9,9 @@
   <link rel="icon" href="assets/sigil.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=20261015-personal6" />
-  <link rel="stylesheet" href="css/realm-theme.css?v=20261015-personal6" />
-  <link rel="stylesheet" href="css/personal-realm.css?v=20261015-personal6" />
+  <link rel="stylesheet" href="css/styles.css?v=20261015-personal7" />
+  <link rel="stylesheet" href="css/realm-theme.css?v=20261015-personal7" />
+  <link rel="stylesheet" href="css/personal-realm.css?v=20261015-personal7" />
 </head>
 <body data-command-realm="personal">
   <aside class="realm-sidebar" aria-label="Personal command center">
@@ -106,14 +106,20 @@
       <details class="mail-privacy"><summary>Connection &amp; privacy</summary><p>Read-only access to abdickers@gmail.com for these inboxes and shopping receipts. Google grants mailbox-wide read access; this page queries only these feeds. Messages and tokens stay in memory in this browser and clear on disconnect or reload. No mail is sent to AI or saved in this public repository.</p><p>If Google blocks sign-in, your OAuth client must allow this website’s origin and enable Gmail API. Use Settings to review the client ID.</p></details>
     </section>
     <section class="panel home-panel" id="homePanel">
-      <div class="panel-title"><h2>⌂ Bag End</h2><span class="realm-account">GOOGLE NEST</span></div>
-      <div class="home-devices">
-        <article class="home-device"><div class="temperature-dial" aria-hidden="true">—<small>°</small></div><div><h3>The hearth</h3><p>Thermostat · not connected</p></div></article>
-        <article class="camera-preview"><svg viewBox="0 0 320 120" aria-hidden="true"><path d="M0 120V80L70 30l50 38 40-30 80 55 40-40 40 35v32" fill="#293c2c"/><path d="M0 120V100l90-50 70 65 80-80 80 58v27" fill="#15291f"/><circle cx="255" cy="25" r="12" fill="#d2b36e"/><path d="M130 114V75h55v39m-65-36 37-29 40 29" fill="none" stroke="#bc9b58" stroke-width="2"/></svg><span>◉ The watch at the gate</span><small>Outdoor camera · stream not connected</small></article>
-      </div>
-      <div class="media-actions"><a href="https://home.google.com/" target="_blank" rel="noopener noreferrer">Open Google Home ↗</a><a href="https://console.nest.google.com/device-access" target="_blank" rel="noopener noreferrer">Connect Nest · setup ↗</a></div>
-      <p class="realm-account">abdickers@gmail.com · Nest enrollment and a private connection are needed for live temperature controls and camera video.</p>
-    </section>
+ <div class="panel-title"><h2>⌂ Bag End</h2><span class="realm-account">SAGE CABIN · GOOGLE NEST</span></div>
+ <div class="home-devices">
+  <article class="home-device"><div class="temperature-dial"><span id="nestTemperature">—</span><small>°</small></div><div><h3>The hearth</h3><select id="nestThermostat" aria-label="Thermostat" hidden></select><p id="nestThermostatInfo">Your personal thermostat</p></div></article>
+  <div id="nestControls" class="nest-controls" hidden>
+   <div class="media-actions"><label>Mode <select id="nestMode"></select></label><button id="nestModeApply" type="button">Apply mode</button></div>
+   <div class="media-actions"><label>Heat <span id="nestHeatUnit">°F</span><input id="nestHeat" type="number" required></label><label>Cool <span id="nestCoolUnit">°F</span><input id="nestCool" type="number" required></label><button id="nestApply" type="button">Apply temperature</button></div>
+  </div>
+  <article class="camera-preview"><div id="nestCameraArt"><svg viewBox="0 0 400 190" aria-hidden="true"><path d="M0 160 110 35l72 87 65-103 153 145v26H0Z" fill="#243c32"/><path d="m120 190 45-70h80l35 70Z" fill="#78916c"/><circle cx="210" cy="160" r="24" fill="#14261d"/><path d="M0 181q200-45 400 0" fill="none" stroke="#c6ac65"/></svg></div><video id="nestVideo" controls autoplay muted playsinline hidden aria-label="Live outdoor Nest camera"></video><span>◉ The watch at the gate</span><select id="nestCamera" aria-label="Camera" hidden></select><small id="nestCameraInfo">Private outdoor camera</small></article>
+  <div class="media-actions"><button id="nestPlay" type="button" disabled>▶ Watch the gate</button><button id="nestStop" type="button" hidden>Stop video</button></div>
+ </div>
+ <p id="nestStatus" role="status" aria-live="polite">Preparing your private Nest connection…</p>
+ <div class="media-actions"><button id="nestConnect" type="button">Connect personal Nest</button><button id="nestRefresh" type="button" disabled>Refresh</button><button id="nestDisconnect" type="button" hidden>Sign out</button><a href="https://home.google.com/" target="_blank" rel="noopener noreferrer">Google Home ↗</a></div>
+ <p class="realm-account">abdickers@gmail.com · Sign-in is separate from Gmail. Video stops when you leave this tab.</p>
+</section>
     <section class="panel music-panel" id="musicPanel">
       <div class="panel-title"><h2>♫ The Prancing Pony</h2><span class="realm-account">YOUTUBE MUSIC</span></div>
       <a class="music-feature" href="https://music.youtube.com/playlist?list=LM" target="_blank" rel="noopener noreferrer"><span class="record-art" aria-hidden="true"><span>♫</span></span><span><small>YOUR SOUNDTRACK</small><h3>Liked Music</h3><span>Your favorites, ready when you are.</span><b>Open your liked songs ↗</b></span></a>
@@ -270,6 +276,6 @@
     <button id="frearToggle" type="button" aria-expanded="true" aria-controls="frearBody">Frear · Grizzly Hills <span aria-hidden="true">◇</span></button>
     <div id="frearBody"><a href="https://worldofwarcraft.blizzard.com/en-us/character/us/grizzly-hills/frear/" target="_blank" rel="noopener noreferrer"><img src="https://render.worldofwarcraft.com/us/character/grizzly-hills/238/217923310-main-raw.png" alt="Blizzard Armory render of Frear, your dwarf paladin" loading="lazy" /></a><p>Blizzard Armory render · Sep 15<br><a href="https://www.wowhead.com/dressing-room" target="_blank" rel="noopener noreferrer">Open 3D dressing room ↗</a></p></div>
   </aside>
-  <script type="module" src="js/app.js?v=20261015-personal6"></script>
+  <script type="module" src="js/app.js?v=20261015-personal7"></script>
 </body>
 </html>
