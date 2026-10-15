@@ -1,7 +1,7 @@
-import { googleIdentity } from './google-identity.js?v=20261015-personal4';
-import { initPersonalMail } from './personal-mail.js?v=20261015-personal4';
-import { accountLink, PERSONAL_EMAIL } from './account-links.mjs?v=20261015-personal4';
-import {DATA_KEY, escapeHtml as esc, safeUrl, localDate, normalizeData, readData, mergeBackup, taskGroup, normalizeObservation} from './core.js?v=20261015-personal4';
+import { googleIdentity } from './google-identity.js?v=20261015-personal5';
+import { initPersonalMail } from './personal-mail.js?v=20261015-personal5';
+import { accountLink, PERSONAL_EMAIL } from './account-links.mjs?v=20261015-personal5';
+import {DATA_KEY, escapeHtml as esc, safeUrl, localDate, normalizeData, readData, mergeBackup, taskGroup, normalizeObservation} from './core.js?v=20261015-personal5';
 const $ = id => document.getElementById(id);
 const uid = () => crypto.randomUUID();
 let storage;
