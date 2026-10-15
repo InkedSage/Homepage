@@ -1,7 +1,7 @@
-import {googleIdentity} from './google-identity.js?v=20261015-personal5';
-import {PERSONAL_EMAIL} from './account-links.mjs?v=20261015-personal5';
-import {escapeHtml as esc} from './core.js?v=20261015-personal5';
-import {INBOX_QUERIES,RECEIPT_QUERY,personalIdentity,uniqueConversations,receiptRecord} from './mail-data.js?v=20261015-personal5';
+import {googleIdentity} from './google-identity.js?v=20261015-personal6';
+import {PERSONAL_EMAIL} from './account-links.mjs?v=20261015-personal6';
+import {escapeHtml as esc} from './core.js?v=20261015-personal6';
+import {INBOX_QUERIES,RECEIPT_QUERY,personalIdentity,uniqueConversations,receiptRecord} from './mail-data.js?v=20261015-personal6';
 const SCOPE='https://www.googleapis.com/auth/gmail.readonly';
 const $=id=>document.getElementById(id);
 const stamp=timestamp=>timestamp?new Date(timestamp).toLocaleString([],{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):'';

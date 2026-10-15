@@ -4,21 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sage's Middle-earth Command</title>
-  <meta name="description" content="Sage's personal Middle-earth dashboard: calendar, tasks, notes, weather, news, and everyday tools." />
+  <meta name="description" content="Sage's personal Middle-earth dashboard: mail, home, music, shopping, calendar, and everyday tools." />
   <meta name="color-scheme" content="dark" />
   <link rel="icon" href="assets/sigil.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=20261015-personal5" />
-  <link rel="stylesheet" href="css/realm-theme.css?v=20261015-personal5" />
-  <link rel="stylesheet" href="css/personal-realm.css?v=20261015-personal5" />
+  <link rel="stylesheet" href="css/styles.css?v=20261015-personal6" />
+  <link rel="stylesheet" href="css/realm-theme.css?v=20261015-personal6" />
+  <link rel="stylesheet" href="css/personal-realm.css?v=20261015-personal6" />
 </head>
 <body data-command-realm="personal">
   <aside class="realm-sidebar" aria-label="Personal command center">
     <a class="realm-brand" href="#dashboard"><span class="realm-ring">A</span><span>THE COMMAND<br><strong>CENTER</strong></span></a>
     <nav class="realm-switch" aria-label="Command center"><a href="https://inkedsage.github.io/Homepage/" aria-current="page">The Shire</a><a href="https://adams-middle-earth-command.spirit-of-76-1921.chatgpt.site/">Work</a></nav>
     <p class="realm-account">PERSONAL<br>abdickers@gmail.com</p>
-    <nav class="realm-nav" aria-label="Dashboard sections"><a href="#dashboard">◇ Overview</a><a href="#tasksPanel">☷ My quests</a><a href="#dailyProvisioning">✦ Daily provisions</a><a href="#notesPanel">✎ Field notes</a><a href="#statusPanel">◉ The beacons</a></nav>
+    <nav class="realm-nav" aria-label="Dashboard sections"><a href="#dashboard">◇ Overview</a><a href="#homePanel">⌂ Bag End</a><a href="#musicPanel">♫ Music &amp; video</a><a href="#dailyProvisioning">✦ Daily provisions</a><a href="#notesPanel">✎ Field notes</a><a href="#statusPanel">◉ The beacons</a></nav>
     <p class="realm-account">One realm. One account.<br>A little less chaos.</p>
   </aside>
   <a class="skip-link" href="#dashboard">Skip to dashboard</a>
@@ -69,7 +69,7 @@
       <div class="search-field"><input id="searchInput" type="search" placeholder="Search the web, or find a tool..." autocomplete="off" /><select id="searchScope" aria-label="Search in"><option value="web">Web</option><option value="dashboard">Dashboard</option></select></div>
       <button class="icon-button search-submit" type="submit" aria-label="Search">Search</button>
       <button class="command-button" id="askAi" type="button">Ask AI</button>
-      <button class="command-button filled" id="newTask" type="button">New Task</button>
+      <a class="command-button filled" href="#homePanel">Home &amp; music</a>
     </form>
   </header>
 
@@ -105,35 +105,33 @@
       <div class="daily-feed-footer"><button id="mailConnect" type="button">Connect personal Gmail</button><button id="mailRefresh" type="button" disabled>Refresh</button><button id="mailMore" type="button" hidden>More conversations</button><button id="mailDisconnect" type="button" hidden>Disconnect</button><span id="mailReadAt" class="realm-account"></span></div>
       <details class="mail-privacy"><summary>Connection &amp; privacy</summary><p>Read-only access to abdickers@gmail.com for these inboxes and shopping receipts. Google grants mailbox-wide read access; this page queries only these feeds. Messages and tokens stay in memory in this browser and clear on disconnect or reload. No mail is sent to AI or saved in this public repository.</p><p>If Google blocks sign-in, your OAuth client must allow this website’s origin and enable Gmail API. Use Settings to review the client ID.</p></details>
     </section>
+    <section class="panel home-panel" id="homePanel">
+      <div class="panel-title"><h2>⌂ Bag End</h2><span class="realm-account">GOOGLE NEST</span></div>
+      <div class="home-devices">
+        <article class="home-device"><div class="temperature-dial" aria-hidden="true">—<small>°</small></div><div><h3>The hearth</h3><p>Thermostat · not connected</p></div></article>
+        <article class="camera-preview"><svg viewBox="0 0 320 120" aria-hidden="true"><path d="M0 120V80L70 30l50 38 40-30 80 55 40-40 40 35v32" fill="#293c2c"/><path d="M0 120V100l90-50 70 65 80-80 80 58v27" fill="#15291f"/><circle cx="255" cy="25" r="12" fill="#d2b36e"/><path d="M130 114V75h55v39m-65-36 37-29 40 29" fill="none" stroke="#bc9b58" stroke-width="2"/></svg><span>◉ The watch at the gate</span><small>Outdoor camera · stream not connected</small></article>
+      </div>
+      <div class="media-actions"><a href="https://home.google.com/" target="_blank" rel="noopener noreferrer">Open Google Home ↗</a><a href="https://console.nest.google.com/device-access" target="_blank" rel="noopener noreferrer">Connect Nest · setup ↗</a></div>
+      <p class="realm-account">abdickers@gmail.com · Nest enrollment and a private connection are needed for live temperature controls and camera video.</p>
+    </section>
+    <section class="panel music-panel" id="musicPanel">
+      <div class="panel-title"><h2>♫ The Prancing Pony</h2><span class="realm-account">YOUTUBE MUSIC</span></div>
+      <a class="music-feature" href="https://music.youtube.com/playlist?list=LM" target="_blank" rel="noopener noreferrer"><span class="record-art" aria-hidden="true"><span>♫</span></span><span><small>YOUR SOUNDTRACK</small><h3>Liked Music</h3><span>Your favorites, ready when you are.</span><b>Open your liked songs ↗</b></span></a>
+      <div class="media-actions"><a href="https://music.youtube.com/library/playlists" target="_blank" rel="noopener noreferrer">Your playlists ↗</a><a href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer">Music home ↗</a></div>
+      <p class="realm-account">Choose abdickers@gmail.com in YouTube Music’s account switcher.</p>
+    </section>
+    <section class="panel video-panel" id="videoPanel">
+      <div class="panel-title"><h2>▶ A window to the world</h2><span class="realm-account">YOUTUBE</span></div>
+      <div id="featuredVideo" class="video-feature"><a class="video-empty" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span><strong>Your recommendations</strong><small>Open your personal YouTube Home ↗</small></a></div>
+      <details class="video-pin"><summary>Pin a video here</summary><form id="videoForm"><label for="videoUrl">YouTube video link</label><input id="videoUrl" type="url" placeholder="https://www.youtube.com/watch?v=…" required /><button type="submit">Pin video</button><button id="clearVideo" type="button">Clear</button><p id="videoError" role="status"></p></form></details>
+      <p class="realm-account">YouTube does not expose your #1 Home recommendation through its public API. Pin a video to watch here; saved only in this browser. Choose abdickers@gmail.com on YouTube.</p>
+    </section>
+
     <section class="panel ai-panel">
       <div class="panel-title">
         <h2>AI Tools</h2>
       </div>
       <div class="app-grid ai-grid" id="aiGrid"></div><p class="realm-account">ChatGPT: choose abdickers@gmail.com in its account switcher. ChatGPT shares the browser’s current login.</p>
-    </section>
-
-    <section class="panel tasks-panel" id="tasksPanel">
-      <div class="panel-title">
-        <h2>The Tasks of Today</h2>
-        <button id="clearDone" type="button">Clear Done</button>
-      </div>
-      <div class="task-toolbar"><span id="taskCount" aria-live="polite"></span><label><input id="showCompleted" type="checkbox" checked /> Show completed</label></div>
-      <div class="task-columns">
-        <div>
-          <h3>Today</h3>
-          <div id="todayTasks" class="task-list"></div>
-        </div>
-        <div>
-          <h3>Upcoming</h3>
-          <div id="upcomingTasks" class="task-list compact"></div>
-        </div>
-      </div>
-      <form class="task-add" id="taskForm">
-        <label class="sr-only" for="taskInput">New task</label><input id="taskInput" type="text" placeholder="Forge a new objective..." maxlength="300" required />
-        <input id="taskDue" type="date" aria-label="Task due date (optional)" />
-        <button id="addTask" type="submit">Assign</button>
-      </form>
-      <small id="storageState">Tasks and notes are saved in this browser.</small>
     </section>
 
     <section class="panel provisions-panel" id="dailyProvisioning">
@@ -197,7 +195,7 @@
         <h2>The Scribe's Notes</h2>
         <button id="addNote" type="button">New Note</button>
       </div>
-      <div class="note-grid" id="noteGrid"></div>
+      <div class="note-grid" id="noteGrid"></div><small id="storageState">Notes and settings are saved in this browser.</small>
     </section>
 
     <section class="panel weather-panel">
@@ -272,6 +270,6 @@
     <button id="frearToggle" type="button" aria-expanded="true" aria-controls="frearBody">Frear · Grizzly Hills <span aria-hidden="true">◇</span></button>
     <div id="frearBody"><a href="https://worldofwarcraft.blizzard.com/en-us/character/us/grizzly-hills/frear/" target="_blank" rel="noopener noreferrer"><img src="https://render.worldofwarcraft.com/us/character/grizzly-hills/238/217923310-main-raw.png" alt="Blizzard Armory render of Frear, your dwarf paladin" loading="lazy" /></a><p>Blizzard Armory render · Sep 15<br><a href="https://www.wowhead.com/dressing-room" target="_blank" rel="noopener noreferrer">Open 3D dressing room ↗</a></p></div>
   </aside>
-  <script type="module" src="js/app.js?v=20261015-personal5"></script>
+  <script type="module" src="js/app.js?v=20261015-personal6"></script>
 </body>
 </html>
