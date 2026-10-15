@@ -1,87 +1,86 @@
-# Sage's Middle-earth Command Homepage
+# Sage's Middle-earth Command
 
-## GitHub Pages upload rule
+A buildless personal dashboard for [InkedSage/Homepage](https://github.com/InkedSage/Homepage), hosted on [GitHub Pages](https://inkedsage.github.io/Homepage/). The existing Middle-earth artwork and gold/green styling are preserved.
 
-Upload the contents of this folder to the root of your `abdickers/HomePage` repo.
+## Use the dashboard
 
-Your repo root should look like this:
-
-```text
-HomePage/
-├── index.html
-├── css/
-│   └── styles.css
-├── js/
-│   └── app.js
-├── assets/
-│   ├── Headerhomepage.png
-│   ├── palantir.svg
-│   ├── ring-footer.svg
-│   ├── sigil.svg
-│   └── avatars/
-│       ├── avatar-01-row1-col1.png
-│       ├── ...
-│       └── avatar-13-row4-col4.png
-└── README.md
-```
-
-The page pulls service icons through favicon URLs at runtime, so no extra icon files are needed in the repo.
+- **Links** open in a separate tab and keep the dashboard available. Use **Add Link** to add, edit, or remove shortcuts in AI Tools, Tools & Systems, and Quick Access. Use your organization's specific NetSuite, Jira, Confluence, and Slack URLs if you want to skip their workspace chooser.
+- **Tasks** support completion, priority stars, optional due dates, Today/Upcoming lists, clearing completed tasks, and undo. Completing a task never modifies a calendar event.
+- **Notes** open in a styled editor and support multiline text, editing, deletion, and undo.
+- **Search** supports web search, Ask AI, and a Dashboard scope that finds saved links, tasks, and notes. Press `/` to focus it.
+- **Settings** configures your display name, weather location and units, and calendar. **Export Backup** downloads a JSON file; **Import Backup** merges tasks/notes by ID and restores links/settings, with an undo option.
+- Tasks, notes, links, settings, and theme are browser-local. They sync between open tabs on the same origin. They do **not** sync across devices or different origins. Older `sage_tasks_v2`, `sage_tasks_v8`, and `sage_notes_v2` data is migrated when available. Export data before changing browsers or clearing site data.
 
 ## Google Calendar
 
-The calendar panel is wired for live Google Calendar events using browser OAuth.
+The existing public Web OAuth client ID is retained in `js/core.js` and can be replaced in Settings. No secret or access token is stored in the repository or localStorage. Calendar tokens remain in memory until disconnect, expiry, or page reload.
 
-In `js/app.js`, find:
+Use **Connect Calendar** in a normal Chrome or Edge tab. This requests `calendar.events.readonly` plus OpenID email identity, verifies the grant and account, and shows events for the selected day. Navigate days with the arrows or return to Today. The Open Google Calendar link works even while disconnected.
 
-```js
-googleCalendar: {
-  clientId: '',
-  calendarId: 'primary',
-  scopes: 'https://www.googleapis.com/auth/calendar.readonly',
-  maxResults: 8
-}
+In the Google Cloud project that owns the client ID:
+
+1. Enable the Google Calendar API and configure the OAuth consent screen.
+2. Use a **Web application** OAuth client.
+3. Add `https://inkedsage.github.io` as an authorized JavaScript origin. Add `http://127.0.0.1:4173` and/or `http://localhost:4173` for local preview. Origins do not include `/HomePage/`.
+4. Add your account as a test user if the app is in Testing mode.
+
+An OAuth client ID is public configuration; never add a client secret. Google sign-in can be blocked inside embedded previews. Use the exact page URL in Chrome or Edge. Existing authorizations for broader scopes are managed in your Google account's third-party connections; the dashboard no longer requests Drive or calendar write access.
+
+Google setup: https://developers.google.com/calendar/api/quickstart/js
+
+## Live widgets
+
+- **Weather:** National Weather Service observations, with Open-Meteo forecast fallback. The configured default is Columbia, MO; change the city and °F/°C in Settings. Units are converted according to the NWS unit codes. Rain means the last hour, and missing measurements stay blank rather than becoming zero. Forecast fallback does not pretend to be a personal weather station. No API key is required.
+- **News:** Fox News RSS is read directly; Tech uses the Hacker News Algolia API. Wowhead blocks browser RSS requests, so it uses a timestamped public snapshot in `data/news.json`. The hourly `Refresh public news feeds` GitHub Action refreshes real Fox/Wowhead headlines and commits only this public file. The live page reads the snapshot from the repository so bot commits do not need to rebuild Pages. The action also supports a manual run. Scheduled runs can be delayed or disabled by GitHub after repository inactivity; the displayed timestamp identifies stale snapshots. If feeds fail, their last good snapshot is preserved. No sample headlines are fabricated.
+- **Status:** BigCommerce, Vercel, Slack, OpenAI, and Cloudflare are queried using their public status APIs. Incidents link to the provider. NetSuite links to its official status page; blocked/unavailable APIs display **View status**, not an invented operational state. Checks repeat every five minutes.
+
+External APIs can be blocked by browser extensions or provider outages. Refresh controls and source/status links remain available.
+
+## Preview and verify
+
+No install or build step is required. From the repository root:
+
+```sh
+python -m http.server 4173 --bind 127.0.0.1
+node --test tests/core.test.js
+node --check js/app.js
+python scripts/refresh-feeds.py
 ```
 
-Replace `clientId` with a Google OAuth 2.0 Client ID for a Web application. In Google Cloud Console, add your local preview origin and your GitHub Pages origin as authorized JavaScript origins, for example:
+Open `http://127.0.0.1:4173/`. Use an HTTP server rather than opening `index.html` as a file, because the application uses ES modules.
 
-```text
-http://localhost:4173
-https://abdickers.github.io
-```
+GitHub Pages should publish the `main` branch, repository root. Merge the change to publish the repaired HTML and assets. The news workflow needs Actions enabled and repository `contents: write` permission. It uses the built-in `GITHUB_TOKEN`; no custom secret is needed. Branch rules that prohibit bot commits may require allowing this workflow or running the feed refresher manually and committing its output.
 
-The OAuth client ID is public by design. Do not add a client secret to this static site.
+Legacy root SVG files and images are retained for compatibility. The active entry point loads only `css/styles.css` and `js/app.js`.
 
-Google sign-in must be completed in a normal browser tab, such as Chrome or Edge. VS Code preview panes and other embedded webviews can trigger Google's "Access blocked" OAuth policy screen.
 
-If you still see an OAuth error in a normal browser, check these settings:
+## Twin command centers (October 15, 2026)
 
-- The OAuth client type is `Web application`, not Desktop.
-- Authorized JavaScript origins include the exact local origin, such as `http://localhost:4173`.
-- If you open `127.0.0.1`, add `http://127.0.0.1:4173` too.
-- The Google Calendar API is enabled for the same Google Cloud project.
-- If the OAuth consent screen is in Testing mode, your Google account is listed under Test users.
+Personal is canonically https://inkedsage.github.io/Homepage/ and uses `abdickers@gmail.com`.
+Work remains owner-private at https://adams-middle-earth-command.spirit-of-76-1921.chatgpt.site/ and uses `dickersona@76fireworks.com`.
+The sidebar switches between the two. The artwork, font pair, dark forest surfaces, gold palette, and ornamental borders match Work. `css/realm-theme.css` and `js/account-links.mjs` are copied unchanged to WorkHomepage's `public/realm-theme.css` and `lib/account-links.mjs`.
 
-## Weather Underground
+Google shortcuts carry the realm's email selector, including saved/custom links and individual events. Calendar requests read-only events plus email identity and rejects a different or unverified account before reading any events. Public OAuth client configuration still requires the Google Cloud owner to authorize the GitHub Pages origin. Other providers keep their own login sessions; the page cannot read or force those identities. ChatGPT account switching is explicit in the UI, not an invented account-selection URL.
 
-The weather panel is configured for:
+The Quartermaster opens Walmart+ membership and orders and Amazon account/orders/Prime. Spark was removed at the owner’s request. The optional Gmail receipt reader shows actual source emails after personal Google consent; it does not query retailer accounts, balances or live delivery status. No retail credentials are requested or stored.
 
-- Station name: Sage Cabin
-- Station ID: KMOHARRI62
+Frear's companion uses Blizzard's actual public Armory render for Frear, US Grizzly Hills, dwarf paladin. The snapshot shown by Blizzard was updated September 15, 2026. The companion collapses and remembers the preference. This is a rendered image, not an interactive 3D model; the separate Wowhead Dressing Room can load characters. A true animated 3D companion still needs a verified model/appearance export. No Battle.net password is needed. Image source: https://render.worldofwarcraft.com/us/character/grizzly-hills/238/217923310-main-raw.png .
 
-Add your Weather Underground / weather.com API key in:
+The high-resolution Middle-earth header is reused from WorkHomepage. It is the saved 3840-pixel display derivative of the existing 1672×941 generated artwork, not a newly generated native 4K image. See WorkHomepage's ASSET-NOTES.md. The live personal dashboard remains on the InkedSage origin. Browser-local tasks, settings and notes from the temporary abdickers deployment can be moved with Export backup and Import backup.
 
-```text
-js/app.js
-```
+Legacy default work-service tiles on Personal now lead through a single Work Command Center tile. Custom URLs are retained, and tasks/notes are preserved. Personal tools include Battle.net and Frear’s Armory.
 
-Find:
 
-```js
-weatherApiKey: ''
-```
+## Personal Ravens and shopping receipts
 
-Replace with:
+Personal has only Gemini and ChatGPT in its AI section. Removed AI services, Canva, Notion and Obsidian are filtered from saved links and backup imports as well as defaults; the static Notion shortcut and Spark configuration are removed. Work is unchanged.
 
-```js
-weatherApiKey: 'YOUR_API_KEY_HERE'
-```
+The Ravens mirrors Work's message cards with Primary and Updates tabs. Each reads the matching unread inbox category from **abdickers@gmail.com**, 20 messages at a time, deduplicated into conversations. More conversations loads the next page. Refresh is on demand; reading does not mark mail read. Every card opens the original Gmail conversation with the personal account selector.
+
+Use **Connect personal Gmail** or **Connect shopping receipts**. Both use one in-memory read-only Gmail session, separate from the Calendar token. The Google OpenID identity and Gmail mailbox profile must both match the personal email before message reads begin. Tokens, mail, and receipt records are never written to localStorage, the repository, the Work backend, or AI services. Disconnect and reload clear the private view. Google grants mailbox-wide `gmail.readonly` permission; category/sender queries limit what this page actually reads, not the scope of Google's grant.
+
+Shopping scans the last 180 days for Amazon/Walmart order, receipt, shipping, delivery, pickup and refund emails, 30 messages per page. Sender domains are checked against amazon.com/walmart.com and their subdomains; sender names alone are not trusted. Cards show message date, subject, an order ID if found, and an explicitly labelled unambiguous order total from the plain-text body when available. They are email events, **not current retailer status**. Multiple messages may refer to one order. No spending total is inferred, HTML emails are not executed or displayed, and attachments are not downloaded. Open the source email or retailer Orders link for full details and items.
+
+The Google Cloud owner must enable **Gmail API** for the public OAuth client configured in Settings and allow the `https://inkedsage.github.io` JavaScript origin. The consent screen must permit the personal account and read-only Gmail scope. Google may require app verification or a configured test user; the UI reports denied or unavailable access instead of showing fake empty results. This feature requires user sign-in/consent and cannot be confirmed live without that step.
+
+Official references: https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/list and https://developers.google.com/workspace/gmail/api/auth/scopes . The discovered Amazon/Walmart order APIs are seller-oriented, not a consumer-account integration. No suitable consumer-order plugin was found in the current plugin discovery results.

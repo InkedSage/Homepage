@@ -1,0 +1,54 @@
+{
+  "feeds": {
+    "fox": {
+      "items": [
+        {
+          "title": "'Big Bang Theory' stars were 'outraged' over request to take pay cut for new co-stars, Chuck Lorre claims",
+          "link": "https://www.foxnews.com/entertainment/big-bang-theory-stars-were-outraged-over-request-take-pay-cut-new-co-stars-chuck-lorre-claims",
+          "pubDate": "2026-10-15T09:00:55-04:00"
+        },
+        {
+          "title": "El-Sayed's own words reveal a radical plan to dismantle the Second Amendment",
+          "link": "https://www.foxnews.com/opinion/el-sayed-words-reveal-radical-plan-dismantle-second-amendment",
+          "pubDate": "2026-10-15T09:00:12-04:00"
+        },
+        {
+          "title": "Obama's billion-dollar baby: Chicago center's price tag hits monumental milestone, tripling original estimate",
+          "link": "https://www.foxnews.com/politics/obamas-billion-dollar-baby-chicago-center-price-tag-hits-monumental-milestone-tripling-original-estimate",
+          "pubDate": "2026-10-15T08:58:48-04:00"
+        },
+        {
+          "title": "Investigators zero in on possible cause of Wisconsin plane crash that killed 6",
+          "link": "https://www.foxnews.com/us/investigators-zero-possible-cause-wisconsin-plane-crash-killed-6",
+          "pubDate": "2026-10-15T08:55:52-04:00"
+        }
+      ],
+      "updated": "2026-10-15T13:25:29.535679+00:00"
+    },
+    "wowhead": {
+      "items": [
+        {
+          "title": "Resistance Gear & The Economy - Friends Per Second Podcast Interview with Blizzard",
+          "link": "https://www.wowhead.com/news=383386/resistance-gear-and-the-economy-friends-per-second-podcast-interview-with",
+          "pubDate": "2026-10-15T08:00:00-05:00"
+        },
+        {
+          "title": "Many Labyrinth Bug Fixes - Patch 12.1.5 Hotfixes",
+          "link": "https://www.wowhead.com/news=383424/many-labyrinth-bug-fixes-patch-12-1-5-hotfixes",
+          "pubDate": "2026-10-14T19:55:15-05:00"
+        },
+        {
+          "title": "Loot Sturdy Chests in Labyrinth of Kindo'jan for Lots of Reputation",
+          "link": "https://www.wowhead.com/news=383421/loot-sturdy-chests-in-labyrinth-of-kindojan-for-lots-of-reputation",
+          "pubDate": "2026-10-14T16:23:05-05:00"
+        },
+        {
+          "title": "New Cosmetics Items Available from Patch 12.1.5 Campaign",
+          "link": "https://www.wowhead.com/news=383403/new-cosmetics-items-available-from-patch-12-1-5-campaign",
+          "pubDate": "2026-10-14T13:54:02-05:00"
+        }
+      ],
+      "updated": "2026-10-15T13:25:29.579135+00:00"
+    }
+  }
+}

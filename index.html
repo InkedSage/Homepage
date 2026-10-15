@@ -4,9 +4,24 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sage's Middle-earth Command</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta name="description" content="Sage's personal Middle-earth dashboard: calendar, tasks, notes, weather, news, and everyday tools." />
+  <meta name="color-scheme" content="dark" />
+  <link rel="icon" href="assets/sigil.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=20261015-personal4" />
+  <link rel="stylesheet" href="css/realm-theme.css?v=20261015-personal4" />
+  <link rel="stylesheet" href="css/personal-realm.css?v=20261015-personal4" />
 </head>
-<body>
+<body data-command-realm="personal">
+  <aside class="realm-sidebar" aria-label="Personal command center">
+    <a class="realm-brand" href="#dashboard"><span class="realm-ring">A</span><span>THE COMMAND<br><strong>CENTER</strong></span></a>
+    <nav class="realm-switch" aria-label="Command center"><a href="https://inkedsage.github.io/Homepage/" aria-current="page">The Shire</a><a href="https://adams-middle-earth-command.spirit-of-76-1921.chatgpt.site/">Work</a></nav>
+    <p class="realm-account">PERSONAL<br>abdickers@gmail.com</p>
+    <nav class="realm-nav" aria-label="Dashboard sections"><a href="#dashboard">◇ Overview</a><a href="#tasksPanel">☷ My quests</a><a href="#dailyProvisioning">✦ Daily provisions</a><a href="#notesPanel">✎ Field notes</a><a href="#statusPanel">◉ The beacons</a></nav>
+    <p class="realm-account">One realm. One account.<br>A little less chaos.</p>
+  </aside>
+  <a class="skip-link" href="#dashboard">Skip to dashboard</a>
   <header class="hero">
     <div class="hero-top">
       <div class="identity">
@@ -23,14 +38,14 @@
           <span class="top-dot"></span>
           <span>Theme</span>
         </button>
+        <button id="settingsOpen" class="top-action" type="button"><span class="settings-icon" aria-hidden="true">⚙</span><span>Settings</span></button>
         <a class="top-action" href="https://myaccount.google.com/" target="_blank" rel="noopener">
           <img src="https://www.google.com/s2/favicons?domain=myaccount.google.com&amp;sz=64" alt="" />
           <span>Account</span>
         </a>
         <a class="top-action alert-link" href="https://mail.google.com/" target="_blank" rel="noopener">
           <img src="https://www.google.com/s2/favicons?domain=gmail.com&amp;sz=64" alt="" />
-          <span>Alerts</span>
-          <b>3</b>
+          <span>Mail</span>
         </a>
         <a class="profile-link" href="https://chatgpt.com/" target="_blank" rel="noopener">
           <img src="assets/avatars/avatar-06-row2-col2.png" alt="Sage avatar" />
@@ -40,7 +55,7 @@
     </div>
 
     <div class="title-wrap">
-      <h1>Sage's <span>Middle-earth Command</span></h1>
+      <p class="hero-eyebrow">YOUR PERSONAL CORNER OF MIDDLE-EARTH</p><h1>Adam’s Middle-earth <span>COMMAND CENTER</span></h1>
       <div class="ornament" aria-hidden="true"></div>
       <p>All that is yours to do, see and know</p>
     </div>
@@ -50,41 +65,51 @@
         <img src="assets/palantir.svg" alt="" />
         <span>Palantir</span>
       </div>
-      <input id="searchInput" type="search" placeholder="Search anything... tools, files, web, notes..." autocomplete="off" />
+      <label class="sr-only" for="searchInput">Search the web or your dashboard</label>
+      <div class="search-field"><input id="searchInput" type="search" placeholder="Search the web, or find a tool..." autocomplete="off" /><select id="searchScope" aria-label="Search in"><option value="web">Web</option><option value="dashboard">Dashboard</option></select></div>
       <button class="icon-button search-submit" type="submit" aria-label="Search">Search</button>
       <button class="command-button" id="askAi" type="button">Ask AI</button>
       <button class="command-button filled" id="newTask" type="button">New Task</button>
     </form>
   </header>
 
-  <main class="dashboard">
+  <main class="dashboard" id="dashboard">
     <section class="panel calendar-panel">
       <div class="panel-title">
         <h2>The Calendar</h2>
         <div class="calendar-actions">
           <button id="calendarConnect" type="button">Connect Calendar</button>
-          <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" rel="noopener">Open</a>
+          <button id="calendarDisconnect" type="button" hidden>Disconnect</button>
         </div>
       </div>
       <div class="calendar-body">
         <div class="date-box">
-          <span id="weekday">Friday</span>
-          <b id="daynum">23</b>
-          <span id="monthyear">May 2025</span>
+          <span id="weekday"></span>
+          <b id="daynum"></b>
+          <span id="monthyear"></span>
+          <div class="day-nav"><button id="calendarPrev" type="button" aria-label="Previous day">‹</button><button id="calendarToday" type="button">Today</button><button id="calendarNext" type="button" aria-label="Next day">›</button></div>
         </div>
         <div>
-          <div class="calendar-state" id="calendarState">Open this page in Chrome or Edge, then click Connect Calendar.</div>
+          <div class="calendar-state" id="calendarState" role="status">Connect Google Calendar to see your events here.</div>
           <div class="event-list" id="eventList"></div>
         </div>
       </div>
       <a class="wide-link" href="https://calendar.google.com/calendar/u/0/r" target="_blank" rel="noopener">Open Google Calendar</a>
     </section>
 
+    <section class="panel ravens-panel" id="personalRavens">
+      <div class="panel-title"><h2>✉ The ravens</h2><span class="realm-account">PERSONAL MESSAGES</span></div>
+      <div class="daily-tabs" role="group" aria-label="Personal inbox"><button type="button" data-inbox="primary" aria-pressed="true">Primary</button><button type="button" data-inbox="updates" aria-pressed="false">Updates</button></div>
+      <p class="realm-account" id="ravensCaption">Latest unread Primary conversations · abdickers@gmail.com</p>
+      <p id="ravensState" role="status">Connect your personal Gmail to bring the ravens home.</p><div id="ravensList" class="daily-list"></div>
+      <div class="daily-feed-footer"><button id="mailConnect" type="button">Connect personal Gmail</button><button id="mailRefresh" type="button" disabled>Refresh</button><button id="mailMore" type="button" hidden>More conversations</button><button id="mailDisconnect" type="button" hidden>Disconnect</button><span id="mailReadAt" class="realm-account"></span></div>
+      <details class="mail-privacy"><summary>Connection &amp; privacy</summary><p>Read-only access to abdickers@gmail.com for these inboxes and shopping receipts. Google grants mailbox-wide read access; this page queries only these feeds. Messages and tokens stay in memory in this browser and clear on disconnect or reload. No mail is sent to AI or saved in this public repository.</p><p>If Google blocks sign-in, your OAuth client must allow this website’s origin and enable Gmail API. Use Settings to review the client ID.</p></details>
+    </section>
     <section class="panel ai-panel">
       <div class="panel-title">
         <h2>AI Tools</h2>
       </div>
-      <div class="app-grid ai-grid" id="aiGrid"></div>
+      <div class="app-grid ai-grid" id="aiGrid"></div><p class="realm-account">ChatGPT: choose abdickers@gmail.com in its account switcher. ChatGPT shares the browser’s current login.</p>
     </section>
 
     <section class="panel tasks-panel" id="tasksPanel">
@@ -92,6 +117,7 @@
         <h2>The Tasks of Today</h2>
         <button id="clearDone" type="button">Clear Done</button>
       </div>
+      <div class="task-toolbar"><span id="taskCount" aria-live="polite"></span><label><input id="showCompleted" type="checkbox" checked /> Show completed</label></div>
       <div class="task-columns">
         <div>
           <h3>Today</h3>
@@ -102,15 +128,30 @@
           <div id="upcomingTasks" class="task-list compact"></div>
         </div>
       </div>
-      <div class="task-add">
-        <input id="taskInput" type="text" placeholder="Forge a new objective..." />
-        <button id="addTask" type="button">Assign</button>
+      <form class="task-add" id="taskForm">
+        <label class="sr-only" for="taskInput">New task</label><input id="taskInput" type="text" placeholder="Forge a new objective..." maxlength="300" required />
+        <input id="taskDue" type="date" aria-label="Task due date (optional)" />
+        <button id="addTask" type="submit">Assign</button>
+      </form>
+      <small id="storageState">Tasks and notes are saved in this browser.</small>
+    </section>
+
+    <section class="panel provisions-panel" id="dailyProvisioning">
+      <div class="panel-title"><h2>The Quartermaster</h2><span class="realm-account">DAILY PROVISIONS</span></div>
+      <div class="provision-grid">
+        <article class="provision-card"><span class="provision-symbol walmart-mark" aria-hidden="true">✳</span><h3>Walmart+</h3><p>Groceries, deliveries &amp; member benefits</p><a href="https://www.walmart.com/plus" target="_blank" rel="noopener noreferrer">Membership ↗</a><a href="https://www.walmart.com/orders" target="_blank" rel="noopener noreferrer">Orders ↗</a></article>
+        <article class="provision-card"><span class="provision-symbol amazon-mark" aria-hidden="true">a<span>⌣</span></span><h3>Amazon</h3><p>Your account, parcels &amp; Prime</p><a href="https://www.amazon.com/gp/css/homepage.html" target="_blank" rel="noopener noreferrer">Account ↗</a><a href="https://www.amazon.com/gp/your-account/order-history" target="_blank" rel="noopener noreferrer">Orders ↗</a><a href="https://www.amazon.com/amazonprime" target="_blank" rel="noopener noreferrer">Prime ↗</a></article>
       </div>
+      <p class="realm-account"><span>Receipt history from abdickers@gmail.com · last 180 days · email evidence, not live retailer status.</span></p>
+      <div class="daily-feed-footer"><button id="receiptsConnect" type="button">Connect shopping receipts</button><button id="receiptsMore" type="button" hidden>More receipt emails</button><button id="receiptsClear" type="button" hidden>Clear receipt view</button></div>
+      <p id="receiptsState" role="status">Connect personal Gmail to show real Amazon and Walmart receipts here.</p>
+      <div class="receipt-columns"><section aria-label="Walmart receipt history"><h3>Walmart · the supply wagon</h3><div id="walmartReceipts"></div></section><section aria-label="Amazon receipt history"><h3>Amazon · the arriving caravans</h3><div id="amazonReceipts"></div></section></div>
     </section>
 
     <section class="panel tools-panel">
       <div class="panel-title">
         <h2>Tools &amp; Systems</h2>
+        <button id="addLink" type="button">Add Link</button>
       </div>
       <div class="app-grid tool-grid" id="toolGrid"></div>
     </section>
@@ -127,16 +168,17 @@
         <h2>News from Middle-earth</h2>
         <div class="panel-actions">
           <button id="refreshNews" type="button">Refresh</button>
-          <button id="viewSource" type="button">Source</button>
+          <a id="viewSource" href="https://www.foxnews.com/" target="_blank" rel="noopener">Source ↗</a>
         </div>
       </div>
-      <div class="tabs" id="newsTabs">
-        <button class="active" data-feed="fox" type="button">Fox News</button>
-        <button data-feed="wowhead" type="button">Wowhead</button>
-        <button data-feed="tech" type="button">Tech</button>
+      <div class="tabs" id="newsTabs" role="group" aria-label="News sources">
+        <button class="active" data-feed="fox" type="button" aria-pressed="true">Fox News</button>
+        <button data-feed="wowhead" type="button" aria-pressed="false">Wowhead</button>
+        <button data-feed="tech" type="button" aria-pressed="false">Tech</button>
       </div>
-      <div id="newsList" class="news-list">Summoning ravens...</div>
-      <button id="viewAllNews" class="wide-link as-button" type="button">View All News</button>
+      <p id="newsState" class="feed-state" role="status"></p>
+      <div id="newsList" class="news-list"></div>
+      <a id="viewAllNews" class="wide-link" href="https://www.foxnews.com/" target="_blank" rel="noopener">View All News ↗</a>
     </section>
 
     <section class="panel fellowship-panel">
@@ -150,35 +192,34 @@
       </figure>
     </section>
 
-    <section class="panel notes-panel">
+    <section class="panel notes-panel" id="notesPanel">
       <div class="panel-title">
         <h2>The Scribe's Notes</h2>
+        <button id="addNote" type="button">New Note</button>
       </div>
       <div class="note-grid" id="noteGrid"></div>
-      <a class="wide-link notion-link" href="https://www.notion.so/" target="_blank" rel="noopener">
-        <img src="https://www.google.com/s2/favicons?domain=notion.so&amp;sz=64" alt="" />
-        <span>Open Notion</span>
-      </a>
     </section>
 
     <section class="panel weather-panel">
       <div class="panel-title">
         <h2>Weather in Rohan</h2>
+        <button id="refreshWeather" type="button" aria-label="Refresh weather">↻</button>
       </div>
       <div class="weather-main">
-        <div class="weather-icon">Cloudy</div>
+        <div class="weather-icon" id="weatherIcon" aria-hidden="true">☁</div>
         <div>
           <b id="weatherTemp">--</b>
-          <span id="weatherDesc">Sage Cabin</span>
+          <span id="weatherDesc">Loading conditions...</span>
         </div>
       </div>
       <div class="weather-grid">
         <span>Humidity <b id="weatherHumidity">--</b></span>
         <span>Wind <b id="weatherWind">--</b></span>
-        <span>Rain Today <b id="weatherRain">--</b></span>
+        <span>Rain / last hour <b id="weatherRain">--</b></span>
         <span>Updated <b id="weatherUpdated">--</b></span>
       </div>
-      <small id="weatherSource">Source: Sage Cabin</small>
+      <small id="weatherSource" role="status"></small>
+      <button class="text-button" id="weatherLocation" type="button">Change location</button>
     </section>
 
     <section class="panel wisdom-panel">
@@ -189,7 +230,7 @@
       <cite id="quoteBy"></cite>
     </section>
 
-    <section class="panel status-panel">
+    <section class="panel status-panel" id="statusPanel">
       <div class="status-columns">
         <div>
           <div class="panel-title flush">
@@ -201,7 +242,7 @@
           <div class="panel-title flush">
             <h2>Open Incidents</h2>
           </div>
-          <p id="incidentText">None</p>
+          <div id="incidentText" role="status">Checking connected status feeds...</div>
         </div>
       </div>
     </section>
@@ -210,7 +251,27 @@
   <footer class="footer">
     <img src="assets/ring-footer.svg" alt="Decorative ring" />
   </footer>
+  <p class="footer-caption">Your tools. Your quests. Your corner of Middle-earth. <button class="text-button" id="footerSettings" type="button">Settings &amp; backup</button></p>
+  <noscript><p class="panel">Enable JavaScript to use dashboard widgets. Your Google tools remain available at <a href="https://workspace.google.com/" target="_blank" rel="noopener">Google Workspace</a>.</p></noscript>
 
-  <script src="js/app.js"></script>
+  <dialog id="settingsDialog" aria-labelledby="settingsTitle">
+    <div class="dialog-heading"><h2 id="settingsTitle">Command Settings</h2><button type="button" data-close aria-label="Close settings">×</button></div>
+    <form id="settingsForm" class="dialog-form">
+      <label>Your name<input id="settingName" maxlength="40" required /></label>
+      <fieldset><legend>Weather location</legend><div class="inline-form"><input id="locationQuery" aria-label="Search for a city" placeholder="Search city or ZIP code" /><button id="findLocation" type="button">Find</button></div><div id="locationResults" role="status"></div><p id="selectedLocation"></p><label>Temperature<select id="settingUnit"><option value="fahrenheit">Fahrenheit (°F)</option><option value="celsius">Celsius (°C)</option></select></label></fieldset>
+      <fieldset><legend>Personal identity</legend><p>abdickers@gmail.com</p><p class="help">Calendar only loads after Google confirms this account. Other providers use their own signed-in sessions.</p></fieldset><fieldset><legend>Google connections</legend><label>Web OAuth client ID<input id="settingClientId" placeholder="Your ID.apps.googleusercontent.com" /></label><label>Calendar ID<input id="settingCalendarId" placeholder="primary" /></label><p class="help">Calendar and Gmail access is read-only. Connect each from its widget; the personal email is verified before reading content. Enable Calendar API and Gmail API for this OAuth client. Sign in from Chrome or Edge. Your OAuth client must allow this origin: <code id="oauthOrigin"></code>. <a href="https://developers.google.com/calendar/api/quickstart/js" target="_blank" rel="noopener">Google setup guide ↗</a></p></fieldset>
+      <button class="primary-button" type="submit">Save Settings</button>
+    </form>
+    <fieldset><legend>Backup &amp; restore</legend><p class="help">Download your tasks, notes, links, and settings. Import merges tasks and notes by ID and restores your links and settings. Keep the backup somewhere private.</p><div class="dialog-actions"><button id="exportData" type="button">Export Backup</button><label class="button-label">Import Backup<input id="importData" type="file" accept="application/json,.json" class="sr-only" /></label></div></fieldset>
+  </dialog>
+  <dialog id="noteDialog" aria-labelledby="noteTitle"><div class="dialog-heading"><h2 id="noteTitle">The Scribe's Note</h2><button type="button" data-close aria-label="Close note">×</button></div><form id="noteForm" class="dialog-form"><input id="noteId" type="hidden" /><label>Title<input id="noteName" maxlength="100" required /></label><label>Note<textarea id="noteText" rows="8" maxlength="10000" required></textarea></label><div class="dialog-actions"><button class="primary-button" type="submit">Save Note</button><button id="deleteNote" type="button">Delete Note</button></div></form></dialog>
+  <dialog id="linkDialog" aria-labelledby="linkTitle"><div class="dialog-heading"><h2 id="linkTitle">Your Tools &amp; Links</h2><button type="button" data-close aria-label="Close links">×</button></div><form id="linkForm" class="dialog-form"><input id="linkId" type="hidden" /><label>Name<input id="linkName" maxlength="60" required /></label><label>Website URL<input id="linkUrl" type="url" placeholder="https://example.com" required /></label><label>Section<select id="linkGroup"><option value="tools">Tools &amp; Systems</option><option value="ai">AI Tools</option><option value="quick">Quick Access</option></select></label><p id="linkError" class="form-error" role="status"></p><button class="primary-button" type="submit">Save Link</button></form><div id="manageLinks" class="manage-links"></div></dialog>
+  <dialog id="searchDialog" aria-labelledby="searchTitle"><div class="dialog-heading"><h2 id="searchTitle">The Palantir Found</h2><button type="button" data-close aria-label="Close results">×</button></div><div id="searchResults"></div></dialog>
+  <div id="toast" class="toast" role="status" hidden><span id="toastText"></span><button id="undoAction" type="button" hidden>Undo</button><button id="dismissToast" type="button" aria-label="Dismiss notification">×</button></div>
+  <aside class="frear-companion" aria-label="Frear companion">
+    <button id="frearToggle" type="button" aria-expanded="true" aria-controls="frearBody">Frear · Grizzly Hills <span aria-hidden="true">◇</span></button>
+    <div id="frearBody"><a href="https://worldofwarcraft.blizzard.com/en-us/character/us/grizzly-hills/frear/" target="_blank" rel="noopener noreferrer"><img src="https://render.worldofwarcraft.com/us/character/grizzly-hills/238/217923310-main-raw.png" alt="Blizzard Armory render of Frear, your dwarf paladin" loading="lazy" /></a><p>Blizzard Armory render · Sep 15<br><a href="https://www.wowhead.com/dressing-room" target="_blank" rel="noopener noreferrer">Open 3D dressing room ↗</a></p></div>
+  </aside>
+  <script type="module" src="js/app.js?v=20261015-personal4"></script>
 </body>
 </html>
