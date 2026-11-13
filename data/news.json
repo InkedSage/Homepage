@@ -3,30 +3,40 @@
     "fox": {
       "items": [
         {
-          "title": "Highly contagious bird flu detected in Wisconsin as officials euthanize infected flock",
-          "link": "https://www.foxnews.com/health/highly-contagious-bird-flu-detected-wisconsin-officials-euthanize-infected-flock",
-          "pubDate": "2026-11-13T00:20:20-05:00"
+          "title": "'I've never had a show canceled:' Taylor Sheridan explains his big move to NBCUniversal",
+          "link": "https://www.foxnews.com/outkick-culture/ive-never-had-show-canceled-taylor-sheridan-explains-big-move-nbcuniversal",
+          "pubDate": "2026-11-13T09:41:25-05:00"
         },
         {
-          "title": "Jayden Daniels throws three touchdowns as Commanders rally past Giants Thursday night",
-          "link": "https://www.foxnews.com/outkick-sports/jayden-daniels-throws-three-touchdowns-commanders-rally-past-giants-thursday-night",
-          "pubDate": "2026-11-13T00:08:38-05:00"
+          "title": "Alito warns against congressional Supreme Court meddling, says some lower court judges 'have gone far astray'",
+          "link": "https://www.foxnews.com/politics/alito-warns-against-congressional-supreme-court-meddling-says-some-lower-court-judges-have-gone-far-astray",
+          "pubDate": "2026-11-13T09:35:53-05:00"
         },
         {
-          "title": "Stephen A Smith debriefs interview with President Trump, warns Democrats face steep challenge",
-          "link": "https://www.foxnews.com/media/stephen-a-smith-debriefs-interview-president-trump-warns-democrats-face-steep-challenge",
-          "pubDate": "2026-11-12T22:50:03-05:00"
+          "title": "Ella Langley releases new song 'Here Then We're Gone' for 'Hunger Games: Sunrise on the Reaping'",
+          "link": "https://www.foxnews.com/outkick-culture/ella-langley-releases-new-song-here-then-were-gone-hunger-games-sunrise-reaping",
+          "pubDate": "2026-11-13T09:29:29-05:00"
         },
         {
-          "title": "WWE star Brie Bella talks challenges of wine business, describes perfect Las Vegas day",
-          "link": "https://www.foxnews.com/outkick-sports/wwe-star-brie-bella-talks-challenges-wine-business-describes-perfect-las-vegas-day",
-          "pubDate": "2026-11-12T22:12:34-05:00"
+          "title": "Star golfer has a new appreciation for SI swimsuit models after recent shoot, Herbert auction & Herbie's dog",
+          "link": "https://www.foxnews.com/outkick-sports/star-golfer-new-appreciation-si-swimsuit-models-recent-shoot-herbert-auction-herbies-dog",
+          "pubDate": "2026-11-13T09:26:29-05:00"
         }
       ],
-      "updated": "2026-11-13T06:37:37.677817+00:00"
+      "updated": "2026-11-13T15:21:15.330489+00:00"
     },
     "wowhead": {
       "items": [
+        {
+          "title": "Secret Disguise Toy Found WoW: Forever",
+          "link": "https://www.wowhead.com/news=383859/secret-disguise-toy-found-wow-forever",
+          "pubDate": "2026-11-13T09:00:00-06:00"
+        },
+        {
+          "title": "Worldsoul Saga Lore Speculation: Are the Titans Bad for Azeroth?",
+          "link": "https://www.wowhead.com/news=383633/worldsoul-saga-lore-speculation-are-the-titans-bad-for-azeroth",
+          "pubDate": "2026-11-13T08:00:00-06:00"
+        },
         {
           "title": "New Max Level Weekly Quest Rewards Up to 100 Gold in WoW: Forever",
           "link": "https://www.wowhead.com/news=383846/new-max-level-weekly-quest-rewards-up-to-100-gold-in-wow-forever",
@@ -36,19 +46,9 @@
           "title": "New Brutal Armor Transmog Sets Datamined in Patch 12.1.7",
           "link": "https://www.wowhead.com/news=383863/new-brutal-armor-transmog-sets-datamined-in-patch-12-1-7",
           "pubDate": "2026-11-12T17:00:09-06:00"
-        },
-        {
-          "title": "Learning Dual Spec Can Trigger Empty Action Bars When Logging Out in WoW: Forever",
-          "link": "https://www.wowhead.com/news=383862/dual-spec-bug-causes-empty-action-bars-after-logging-out",
-          "pubDate": "2026-11-12T16:45:42-06:00"
-        },
-        {
-          "title": "Season of Discovery's Scarlet Enclave Raid to Return in WoW: Forever",
-          "link": "https://www.wowhead.com/news=383855/season-of-discoverys-scarlet-enclave-raid-to-return-in-wow-forever",
-          "pubDate": "2026-11-12T16:02:00-06:00"
         }
       ],
-      "updated": "2026-11-13T06:37:38.199523+00:00"
+      "updated": "2026-11-13T15:21:15.790012+00:00"
     }
   }
 }
