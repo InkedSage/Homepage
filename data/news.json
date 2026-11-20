@@ -3,30 +3,40 @@
     "fox": {
       "items": [
         {
-          "title": "Army delays controlled detonation of unstable bomb-making chemical in Iowa",
-          "link": "https://www.foxnews.com/us/army-delays-controlled-detonation-unstable-bomb-making-chemical-iowa",
-          "pubDate": "2026-11-19T22:04:27-05:00"
+          "title": "Americans don’t have to choose between our AI future and ripping off copyright owners",
+          "link": "https://www.foxnews.com/opinion/americans-dont-choose-between-ai-future-ripping-off-copyright-owners",
+          "pubDate": "2026-11-25T05:00:00-05:00"
         },
         {
-          "title": "Feds release brazen heist video, charge 14 in alleged $22.5M California freight train theft ring",
-          "link": "https://www.foxnews.com/us/feds-release-brazen-heist-video-charge-14-alleged-22-5m-california-freight-train-theft-ring",
-          "pubDate": "2026-11-19T21:55:27-05:00"
+          "title": "Popular video game GTA VI drives fears of dangerous copycat stunts for young players, former cop warns",
+          "link": "https://www.foxnews.com/us/popular-video-game-gta-vi-drives-fears-dangerous-copycat-stunts-young-players-former-cop-warns",
+          "pubDate": "2026-11-20T06:00:58-05:00"
         },
         {
-          "title": "Deion Sanders receives 'about five' death threats every day as Colorado football coach",
-          "link": "https://www.foxnews.com/outkick-sports/deion-sanders-receives-about-five-death-threats-every-day-colorado-football-coach",
-          "pubDate": "2026-11-19T21:48:37-05:00"
+          "title": "'Food Babe' declares war on the 'holiday death aisle' ahead of Thanksgiving",
+          "link": "https://www.foxnews.com/food-drink/food-babe-declares-war-holiday-death-aisle-ahead-thanksgiving",
+          "pubDate": "2026-11-20T06:00:39-05:00"
         },
         {
-          "title": "NBA icon Russell Westbrook hands out 1,500 Thanksgiving meals in the rain for kids in LA",
-          "link": "https://www.foxnews.com/outkick-sports/nba-icon-russell-westbrook-hands-out-1500-thanksgiving-meals-rain-kids-la",
-          "pubDate": "2026-11-19T21:37:43-05:00"
+          "title": "Elon Musk's space giant cozies up to Dem power brokers as party vows to put his empire under siege",
+          "link": "https://www.foxnews.com/politics/elon-musks-space-giant-cozies-up-dem-power-brokers-party-vows-put-his-empire-under-siege",
+          "pubDate": "2026-11-20T06:00:32-05:00"
         }
       ],
-      "updated": "2026-11-20T03:08:36.711780+00:00"
+      "updated": "2026-11-20T11:29:33.665636+00:00"
     },
     "wowhead": {
       "items": [
+        {
+          "title": "Skyborne Now Get Reputation Discount for Mounts in WoW: Forever But You'll Need A Lot of Runecloth",
+          "link": "https://www.wowhead.com/news=383940/skyborne-now-get-reputation-discount-for-mounts-in-wow-forever-but-youll-need-a",
+          "pubDate": "2026-11-19T22:35:14-06:00"
+        },
+        {
+          "title": "Ret Paladin Bug Fix and Seed Hybridizer Available Again - WoW: Forever Hotfixes for November 19th",
+          "link": "https://www.wowhead.com/news=383939/ret-paladin-bug-fix-and-seed-hybridizer-available-again-wow-forever-hotfixes-for",
+          "pubDate": "2026-11-19T22:03:00-06:00"
+        },
         {
           "title": "Blizzard Investigating Several Bugged Quests in WoW: Forever",
           "link": "https://www.wowhead.com/news=383938/blizzard-investigating-several-bugged-quests-in-wow-forever",
@@ -36,19 +46,9 @@
           "title": "Blizzard Addresses Spell Power Gear Shortage in WoW: Forever",
           "link": "https://www.wowhead.com/news=383928/blizzard-addresses-spell-power-gear-shortage-in-wow-forever",
           "pubDate": "2026-11-19T18:42:07-06:00"
-        },
-        {
-          "title": "Some EU Players Reporting Issues with PvP Queues and Honor Gains in WoW: Forever",
-          "link": "https://www.wowhead.com/news=383937/some-eu-players-reporting-issues-with-pvp-queues-and-honor-gains-in-wow-forever",
-          "pubDate": "2026-11-19T17:20:47-06:00"
-        },
-        {
-          "title": "Motes of Unstable Magic Now Soulbound in WoW: Forever - Gold Strategy Nerfed",
-          "link": "https://www.wowhead.com/news=383935/motes-of-unstable-magic-now-soulbound-in-wow-forever-gold-strategy-nerfed",
-          "pubDate": "2026-11-19T15:23:45-06:00"
         }
       ],
-      "updated": "2026-11-20T03:08:37.274958+00:00"
+      "updated": "2026-11-20T11:29:34.112106+00:00"
     }
   }
 }
